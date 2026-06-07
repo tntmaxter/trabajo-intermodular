@@ -8,9 +8,7 @@ Permite a los usuarios explorar planes, adquirir hardware de red y gestionar un 
 ## Funcionalidades principales
 
 Navegación entre secciones: Inicio, Planes, Empresa y Soporte.
-
 Visualización de planes de internet con distintas velocidades y precios.
-
 Catálogo de hardware (routers, switches, sistemas mesh).
 
 
