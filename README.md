@@ -14,13 +14,10 @@ Catálogo de hardware (routers, switches, sistemas mesh).
 
 ### Sistema de carrito con:
 
-Añadir/eliminar productos
-
-Modificar cantidades
-
-Cálculo automático del total
-
-Interfaz moderna, responsive y centrada en experiencia de usuario.
+>Añadir/eliminar productos
+>Modificar cantidades
+>Cálculo automático del total
+>Interfaz moderna, responsive y centrada en experiencia de usuario.
 
 
 ## Tecnologías utilizadas
