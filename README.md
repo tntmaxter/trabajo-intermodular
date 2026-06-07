@@ -1,4 +1,4 @@
-# trabajo-intermodular
+# Trabajo Intermodular
 
 ## Descripción
 Gigabit es una aplicación web que simula la página de un proveedor de servicios de internet de fibra óptica. 
