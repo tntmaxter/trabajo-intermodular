@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gigabit</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ffffff;--bg-soft:#f7f8fa;--bg-soft2:#f0f2f5;--border:#e6e8ec;--text:#111;--text-light:#6b7280;--primary:#2563eb;--primary-dark:#1d4ed8;--primary-light:#eff6ff;--success:#16a34a;--success-light:#f0fdf4;--danger:#dc2626;--radius:10px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+
+/* NAV */
+nav{display:flex;justify-content:space-between;align-items:center;padding:18px 40px;border-bottom:1px solid var(--border);background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);position:sticky;top:0;z-index:100}
+.nav-logo{font-size:1.15rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px}
+.nav-logo-dot{width:10px;height:10px;border-radius:50%;background:var(--primary)}
+nav a{text-decoration:none;color:var(--text-light);margin-left:6px;font-size:0.9rem;padding:7px 13px;border-radius:8px;transition:all .18s;font-weight:500}
+nav a:hover{color:var(--text);background:var(--bg-soft)}
+nav a.active{color:var(--primary);background:var(--primary-light)}
+.nav-right{display:flex;align-items:center;gap:8px}
+.cart-btn{position:relative;padding:7px 14px;background:var(--bg-soft);border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:600;color:var(--text);display:flex;align-items:center;gap:6px;transition:all .18s}
+.cart-btn:hover{background:var(--bg-soft2);border-color:#ccc}
+.cart-count{position:absolute;top:-7px;right:-7px;background:var(--danger);color:#fff;font-size:.65rem;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;display:none}
+.cart-count.show{display:flex}
+
+/* PAGES */
+.page{display:none;animation:fadein .25s ease}
+.page.active{display:block}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{text-align:center;padding:88px 20px 72px;background:linear-gradient(180deg,var(--primary-light) 0%,#fff 100%);display:grid;gap:28px;justify-items:center}
+.hero-badge{display:inline-block;padding:5px 14px;background:#dbeafe;color:var(--primary);border-radius:100px;font-size:.78rem;font-weight:600;margin-bottom:20px;letter-spacing:.03em}
+.hero h1{font-size:clamp(2.2rem,5vw,3.2rem);font-weight:700;margin-bottom:16px;line-height:1.15;letter-spacing:-.02em}
+.hero h1 span{color:var(--primary)}
+.hero p{color:var(--text-light);margin-bottom:32px;font-size:1.05rem;max-width:480px;margin-left:auto;margin-right:auto}
+.hero-image{width:100%;max-width:760px;border-radius:24px;overflow:hidden;box-shadow:0 32px 80px rgba(37,99,235,.14);border:1px solid rgba(37,99,235,.12)}
+.hero-buttons{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.hero-stats{display:flex;justify-content:center;gap:40px;margin-top:56px;flex-wrap:wrap}
+.hstat{text-align:center}
+.hstat strong{display:block;font-size:1.6rem;font-weight:700;color:var(--primary)}
+.hstat span{font-size:.8rem;color:var(--text-light);font-weight:500}
+
+/* BTN */
+.btn{padding:11px 22px;border-radius:var(--radius);border:none;cursor:pointer;font-weight:600;font-size:.9rem;transition:all .18s;display:inline-flex;align-items:center;gap:7px;font-family:'Inter',sans-serif}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-dark);transform:translateY(-1px);box-shadow:0 4px 16px rgba(37,99,235,.25)}
+.btn-secondary{background:var(--bg);border:1px solid var(--border);color:var(--text)}
+.btn-secondary:hover{background:var(--bg-soft);border-color:#ccc}
+.btn-success{background:var(--success);color:#fff}
+.btn-success:hover{background:#15803d;transform:translateY(-1px)}
+.btn-outline{background:transparent;border:1.5px solid var(--primary);color:var(--primary)}
+.btn-outline:hover{background:var(--primary-light)}
+.btn-full{width:100%;justify-content:center}
+.btn-sm{padding:8px 16px;font-size:.82rem}
+
+/* SECTION */
+.section{padding:72px 40px;max-width:1100px;margin:auto}
+.section-header{text-align:center;margin-bottom:48px}
+.section-header h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin-bottom:10px;letter-spacing:-.02em}
+.section-header p{color:var(--text-light);max-width:520px;margin:auto;font-size:.95rem}
+.section-tag{display:inline-block;padding:4px 12px;background:var(--primary-light);color:var(--primary);border-radius:100px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+
+/* FEATURES */
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.feat-card{padding:28px 24px;border-radius:var(--radius);border:1px solid var(--border);background:#fff;transition:all .2s}
+.feat-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.08);border-color:#cdd5e0}
+.feat-icon{font-size:1.6rem;margin-bottom:14px;display:block}
+.feat-card h3{font-size:1rem;margin-bottom:6px;font-weight:600}
+.feat-card p{color:var(--text-light);font-size:.87rem}
+
+/* PLANS */
+.plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.plan-card{border-radius:14px;border:1.5px solid var(--border);background:#fff;overflow:hidden;transition:all .25s;display:flex;flex-direction:column}
+.plan-card:hover{box-shadow:0 12px 32px rgba(0,0,0,.1);transform:translateY(-3px)}
+.plan-card.popular{border-color:var(--primary);box-shadow:0 0 0 4px rgba(37,99,235,.08)}
+.plan-top{padding:28px 28px 20px}
+.plan-badge{display:inline-block;padding:4px 12px;background:var(--primary);color:#fff;border-radius:100px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px}
+.plan-badge.green{background:var(--success)}
+.plan-badge.purple{background:#7c3aed}
+.plan-name{font-size:1.3rem;font-weight:700;margin-bottom:4px}
+.plan-speed{font-size:.9rem;color:var(--text-light);margin-bottom:16px;display:flex;align-items:center;gap:6px}
+.speed-pill{background:var(--bg-soft);border:1px solid var(--border);padding:2px 9px;border-radius:100px;font-size:.78rem;font-weight:600;color:var(--text)}
+.plan-price{font-size:2.4rem;font-weight:700;letter-spacing:-.03em;line-height:1}
+.plan-price sup{font-size:1rem;vertical-align:top;margin-top:5px;font-weight:500;color:var(--text-light)}
+.plan-price span{font-size:.85rem;color:var(--text-light);font-weight:400}
+.plan-body{padding:0 28px 28px;flex:1;display:flex;flex-direction:column}
+.plan-divider{height:1px;background:var(--border);margin:20px 0}
+.plan-feats{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:24px;flex:1}
+.plan-feats li{display:flex;align-items:center;gap:9px;font-size:.87rem;color:var(--text-light)}
+.check{width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;flex-shrink:0}
+.check-blue{background:#dbeafe;color:var(--primary)}
+.check-green{background:var(--success-light);color:var(--success)}
+
+/* HARDWARE */
+.hw-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.hw-card{border-radius:14px;border:1.5px solid var(--border);overflow:hidden;transition:all .25s;background:#fff;display:flex;flex-direction:column}
+.hw-card:hover{box-shadow:0 12px 32px rgba(0,0,0,.1);transform:translateY(-3px);border-color:#cdd5e0}
+.hw-img{background:var(--bg-soft);aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:3rem;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hw-img img{width:100%;height:100%;object-fit:cover;display:block}
+.hw-img-label{position:absolute;top:12px;left:12px;background:#fff;border:1px solid var(--border);padding:3px 10px;border-radius:100px;font-size:.7rem;font-weight:600;color:var(--text-light)}
+.hw-info{padding:20px;flex:1;display:flex;flex-direction:column}
+.hw-name{font-size:1rem;font-weight:700;margin-bottom:5px}
+.hw-desc{font-size:.83rem;color:var(--text-light);line-height:1.55;margin-bottom:16px;flex:1}
+.hw-footer{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.hw-price{font-weight:700;font-size:1.25rem}
+.hw-stock{font-size:.72rem;color:var(--success);font-weight:600;display:flex;align-items:center;gap:4px}
+.hw-stock::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--success)}
+
+/* CART PANEL */
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:200;display:none;animation:fadein .2s ease}
+.cart-overlay.open{display:block}
+.cart-panel{position:fixed;top:0;right:0;width:380px;max-width:95vw;height:100%;background:#fff;z-index:201;display:flex;flex-direction:column;box-shadow:-8px 0 40px rgba(0,0,0,.12);transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1)}
+.cart-panel.open{transform:translateX(0)}
+.cart-head{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.cart-head h3{font-weight:700;font-size:1.05rem}
+.cart-close{background:var(--bg-soft);border:1px solid var(--border);border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;color:var(--text-light);transition:all .18s}
+.cart-close:hover{background:#eee;color:var(--text)}
+.cart-items{flex:1;overflow-y:auto;padding:16px 24px;display:flex;flex-direction:column;gap:14px}
+.cart-empty{text-align:center;padding:48px 20px;color:var(--text-light)}
+.cart-empty-icon{font-size:2.5rem;margin-bottom:12px}
+.cart-item{display:flex;gap:14px;padding:14px;border:1px solid var(--border);border-radius:10px;background:var(--bg-soft)}
+.ci-icon{width:44px;height:44px;background:#fff;border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.ci-info{flex:1;min-width:0}
+.ci-name{font-weight:600;font-size:.88rem;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ci-sub{font-size:.78rem;color:var(--text-light)}
+.ci-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0}
+.ci-price{font-weight:700;font-size:.92rem}
+.ci-qty{display:flex;align-items:center;gap:6px}
+.qty-btn{width:22px;height:22px;border-radius:5px;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:.85rem;font-weight:700;display:flex;align-items:center;justify-content:center;color:var(--text-light);transition:all .15s}
+.qty-btn:hover{background:var(--bg-soft2);border-color:#ccc}
+.qty-val{font-size:.82rem;font-weight:600;min-width:18px;text-align:center}
+.ci-del{background:none;border:none;cursor:pointer;color:#ccc;font-size:.9rem;transition:color .15s}
+.ci-del:hover{color:var(--danger)}
+.cart-foot{padding:20px 24px;border-top:1px solid var(--border)}
+.cart-total-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.cart-total-label{color:var(--text-light);font-size:.9rem}
+.cart-total-val{font-size:1.3rem;font-weight:700}
+.cart-note{font-size:.75rem;color:var(--text-light);text-align:center;margin-top:10px}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:#111;color:#fff;padding:12px 22px;border-radius:10px;font-size:.88rem;font-weight:500;z-index:500;opacity:0;transition:all .3s;display:flex;align-items:center;gap:8px;white-space:nowrap;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast-icon{font-size:1rem}
+
+/* SUPPORT PAGE */
+.support-hero{background:linear-gradient(180deg,var(--bg-soft) 0%,#fff 100%);padding:64px 40px 48px;text-align:center;border-bottom:1px solid var(--border)}
+.search-bar{display:flex;max-width:520px;margin:24px auto 0;background:#fff;border:1.5px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .2s}
+.search-bar:focus-within{border-color:var(--primary)}
+.search-bar input{flex:1;padding:14px 18px;background:transparent;border:none;outline:none;font-family:'Inter',sans-serif;font-size:.9rem;color:var(--text)}
+.search-bar input::placeholder{color:#aaa}
+.search-bar button{padding:14px 20px;background:var(--primary);color:#fff;border:none;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;transition:background .18s}
+.search-bar button:hover{background:var(--primary-dark)}
+.sup-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.sup-card{padding:24px;border:1.5px solid var(--border);border-radius:12px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:12px;background:#fff}
+.sup-card:hover{border-color:var(--primary);box-shadow:0 6px 20px rgba(37,99,235,.1);transform:translateY(-2px)}
+.sup-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.si-blue{background:#dbeafe}
+.si-green{background:#dcfce7}
+.si-purple{background:#ede9fe}
+.sup-card h3{font-size:.95rem;font-weight:600}
+.sup-card p{font-size:.83rem;color:var(--text-light)}
+.sup-arr{font-size:.8rem;color:var(--primary);font-weight:600;margin-top:auto;display:flex;align-items:center;gap:4px}
+.faq-wrap{max-width:680px;margin:0 auto}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-q{width:100%;padding:18px 0;background:none;border:none;text-align:left;font-family:'Inter',sans-serif;font-size:.92rem;font-weight:600;color:var(--text);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.faq-icon{width:24px;height:24px;border-radius:50%;background:var(--bg-soft);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.85rem;color:var(--text-light);flex-shrink:0;transition:all .2s}
+.faq-item.open .faq-icon{background:var(--primary-light);border-color:#93c5fd;color:var(--primary);transform:rotate(45deg)}
+.faq-a{font-size:.87rem;color:var(--text-light);line-height:1.7;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s}
+.faq-item.open .faq-a{max-height:180px;padding-bottom:18px}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.form-group{margin-bottom:14px}
+.form-label{display:block;font-size:.78rem;font-weight:600;color:var(--text-light);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
+.form-input{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:'Inter',sans-serif;font-size:.9rem;color:var(--text);outline:none;transition:border-color .18s;background:#fff}
+.form-input:focus{border-color:var(--primary)}
+.form-input::placeholder{color:#bbb}
+textarea.form-input{resize:vertical;min-height:100px}
+.contact-info{display:flex;flex-direction:column;gap:0}
+.ci-row{display:flex;gap:14px;align-items:flex-start;padding:18px 0;border-bottom:1px solid var(--border)}
+.ci-row:last-child{border-bottom:none}
+.ci-ico{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.ci-l{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text-light);display:block;margin-bottom:2px}
+.ci-v{font-weight:600;font-size:.9rem}
+.status-ok{display:flex;align-items:center;gap:10px;padding:14px 18px;background:var(--success-light);border:1px solid #86efac;border-radius:10px;margin-top:20px}
+.status-dot{width:8px;height:8px;border-radius:50%;background:var(--success)}
+.status-ok span{font-size:.82rem;color:#166534;font-weight:500}
+
+/* ABOUT PAGE */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;padding:80px 40px;max-width:1100px;margin:auto}
+.about-visual{background:linear-gradient(135deg,#dbeafe 0%,#ede9fe 100%);border-radius:20px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.about-big{font-size:5.5rem;font-weight:800;color:var(--primary);letter-spacing:-.06em;line-height:1}
+.about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px}
+.ast{background:var(--bg-soft);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
+.ast strong{display:block;font-size:1.3rem;font-weight:700;color:var(--primary)}
+.ast span{font-size:.72rem;color:var(--text-light);font-weight:500}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:48px}
+.tl-item{padding:22px 18px;border-right:1px solid var(--border)}
+.tl-item:last-child{border-right:none}
+.tl-year{font-size:.75rem;font-weight:700;color:var(--primary);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.tl-ev{font-weight:700;font-size:.9rem;margin-bottom:4px}
+.tl-d{font-size:.78rem;color:var(--text-light);line-height:1.5}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:28px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-top:40px}
+.footer-logo{font-weight:700;font-size:.95rem;display:flex;align-items:center;gap:6px}
+.footer-logo-dot{width:8px;height:8px;border-radius:50%;background:var(--primary)}
+.footer-links{display:flex;gap:20px}
+.footer-links a{font-size:.82rem;color:var(--text-light);text-decoration:none;transition:color .18s}
+.footer-links a:hover{color:var(--text)}
+.footer-copy{font-size:.82rem;color:var(--text-light)}
+
+@media(max-width:720px){
+  nav{padding:14px 20px}
+  .section{padding:48px 20px}
+  .about-grid{grid-template-columns:1fr;padding:48px 20px;gap:40px}
+  .contact-grid{grid-template-columns:1fr}
+  .timeline{grid-template-columns:repeat(2,1fr)}
+  .cart-panel{width:100%}
+  footer{flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!--CART OVERLAY-->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-head">
+    <h3>Tu carrito <span id="cartHeaderCount" style="font-size:.85rem;color:var(--text-light);font-weight:400"></span></h3>
+    <div class="cart-close" onclick="closeCart()">X</div>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty" id="cartEmpty">
+      <div class="cart-empty-icon"></div>
+      <strong style="display:block;margin-bottom:6px">Tu carrito está vacío</strong>
+      <span style="font-size:.85rem;color:var(--text-light)">Añade planes o hardware para empezar</span>
+    </div>
+  </div>
+  <div class="cart-foot">
+    <div class="cart-total-row">
+      <span class="cart-total-label">Total mensual estimado</span>
+      <span class="cart-total-val" id="cartTotal">0,00€</span>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="checkout()">Finalizar pedido →</button>
+    <div class="cart-note">Sin permanencia · Cancelación gratuita</div>
+  </div>
+</div>
+
+<!--TOAST -->
+<div class="toast" id="toast"><span class="toast-icon"></span><span id="toastMsg">Añadido al carrito</span></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">
+    <div class="nav-logo-dot"></div>
+    Gigabit
+  </div>
+  <div style="display:flex;align-items:center;gap:2px">
+    <a href="#" id="nav-home" class="active" onclick="showPage('home');return false">Inicio</a>
+    <a href="#" id="nav-store" onclick="showPage('store');return false">Planes</a>
+    <a href="#" id="nav-about" onclick="showPage('about');return false">Empresa</a>
+    <a href="#" id="nav-support" onclick="showPage('support');return false">Soporte</a>
+  </div>
+  <div class="nav-right">
+    <button class="cart-btn" onclick="openCart()">
+      Carrito
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!--HOME-->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-badge">Red 100% propia · Sin intermediarios</div>
+    <img src="C:\Users\tntmaxter\Downloads\gigabit\imagen 1.jpg" alt="Conexión de fibra óptica" class="hero-image">
+    <h1>Internet <span>ultrarrápido</span><br>sin complicaciones</h1>
+    <p>Fibra óptica simétrica con máxima estabilidad y velocidad real garantizada en contrato.</p>
+    <div class="hero-buttons">
+      <button class="btn btn-primary" onclick="showPage('store')">Ver planes →</button>
+      <button class="btn btn-secondary" onclick="showPage('about')">Más información</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><strong>10Gbps</strong><span>Velocidad máxima</span></div>
+      <div class="hstat"><strong>99.9%</strong><span>Uptime garantizado</span></div>
+      <div class="hstat"><strong>+50K</strong><span>Clientes activos</span></div>
+      <div class="hstat"><strong>24/7</strong><span>Soporte incluido</span></div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-tag">Por qué elegirnos</div>
+      <h2>Todo lo que necesitas incluido</h2>
+      <p>Sin costes ocultos, sin permanencia y con soporte real de personas reales.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card"></span><h3>Velocidad real</h3><p>Conexión simétrica garantizada en el contrato. Sin throttling ni letter pequeña.</p></div>
+      <div class="feat-card"></span><h3>Soporte 24/7</h3><p>Atención técnica siempre disponible por teléfono, chat y email.</p></div>
+      <div class="feat-card"></span><h3>Sin permanencia</h3><p>Libertad total. Cancela cuando quieras sin penalización.</p></div>
+      <div class="feat-card"></span><h3>IP fija incluida</h3><p>IP estática sin coste adicional en todos los planes.</p></div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--bg-soft);max-width:100%;padding:56px 40px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <div style="max-width:1100px;margin:auto;text-align:center">
+      <h2 style="font-size:1.7rem;font-weight:700;margin-bottom:10px">¿Listo para conectarte?</h2>
+      <p style="color:var(--text-light);margin-bottom:28px">Activa tu plan hoy. Instalación en 48 horas.</p>
+      <button class="btn btn-primary" style="font-size:1rem;padding:14px 32px" onclick="showPage('store')">Ver todos los planes →</button>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo"><div class="footer-logo-dot"></div>Gigabit</div>
+    <div class="footer-links"><a href="#">Privacidad</a><a href="#">Términos</a><a href="#">Cookies</a></div>
+    <div class="footer-copy">© 2026 Gigabit Technologies S.L.</div>
+  </footer>
+</div>
+
+<!--STORE-->
+<div class="page" id="page-store">
+  <section class="section">
+    <div class="section-header">
+      <div class="section-tag">Tienda</div>
+      <h2>Planes de internet</h2>
+      <p>Elige la velocidad que necesitas. Todos incluyen IP fija, sin permanencia y soporte 24/7.</p>
+    </div>
+    <div class="plan-grid">
+
+      <div class="plan-card">
+        <div class="plan-top">
+          <span class="plan-badge green">Hogar</span>
+          <div class="plan-name">Home 600</div>
+          <div class="plan-speed">Fibra simétrica <span class="speed-pill">600 Mbps</span></div>
+          <div class="plan-price"><sup>€</sup>34<span>,99/mes</span></div>
+        </div>
+        <div class="plan-body">
+          <div class="plan-divider"></div>
+          <ul class="plan-feats">
+            <li><div class="check check-green">✓</div>600 Mbps subida y bajada</li>
+            <li><div class="check check-green">✓</div>IP fija incluida</li>
+            <li><div class="check check-green">✓</div>Sin permanencia</li>
+            <li><div class="check check-green">✓</div>Soporte 24/7</li>
+            <li><div class="check check-green">✓</div>Instalación gratuita</li>
+          </ul>
+          <button class="btn btn-outline btn-full" onclick="addToCart('plan','Home 600','34.99','','mes')">Añadir al carrito</button>
+        </div>
+      </div>
+
+      <div class="plan-card popular">
+        <div class="plan-top">
+          <span class="plan-badge">Más popular</span>
+          <div class="plan-name">Pro 1G</div>
+          <div class="plan-speed">Fibra simétrica <span class="speed-pill">1 Gbps</span></div>
+          <div class="plan-price"><sup>€</sup>49<span>,99/mes</span></div>
+        </div>
+        <div class="plan-body">
+          <div class="plan-divider"></div>
+          <ul class="plan-feats">
+            <li><div class="check check-blue">✓</div>1 Gbps subida y bajada</li>
+            <li><div class="check check-blue">✓</div>IP fija + IPv6</li>
+            <li><div class="check check-blue">✓</div>Sin permanencia</li>
+            <li><div class="check check-blue">✓</div>Soporte prioritario</li>
+            <li><div class="check check-blue">✓</div>Router WiFi 6 incluido</li>
+          </ul>
+          <button class="btn btn-primary btn-full" onclick="addToCart('plan','Pro 1G','49.99','','mes')">Añadir al carrito</button>
+        </div>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-top">
+          <span class="plan-badge purple">Empresa</span>
+          <div class="plan-name">Business 10G</div>
+          <div class="plan-speed">Fibra simétrica <span class="speed-pill">10 Gbps</span></div>
+          <div class="plan-price"><sup>€</sup>199<span>/mes</span></div>
+        </div>
+        <div class="plan-body">
+          <div class="plan-divider"></div>
+          <ul class="plan-feats">
+            <li><div class="check check-blue">✓</div>10 Gbps simétrico</li>
+            <li><div class="check check-blue">✓</div>SLA 99.9% garantizado</li>
+            <li><div class="check check-blue">✓</div>Técnico dedicado</li>
+            <li><div class="check check-blue">✓</div>Bloque de IPs /29</li>
+            <li><div class="check check-blue">✓</div>Panel de gestión pro</li>
+          </ul>
+          <button class="btn btn-outline btn-full" onclick="addToCart('plan','Business 10G','199','','mes')">Añadir al carrito</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-header" style="margin-top:72px;margin-bottom:32px">
+      <div class="section-tag">Hardware</div>
+      <h2>Equipamiento</h2>
+      <p>Hardware compatible con todos nuestros planes. Con garantía oficial y soporte incluido.</p>
+    </div>
+    <div class="hw-grid">
+      <div class="hw-card">
+        <div class="hw-img"><span class="hw-img-label">Router</span><img src="imagen 1.jpg" alt="Router de alta velocidad"></div>
+        <div class="hw-info">
+          <div class="hw-name">GigaRouter AX6000</div>
+          <div class="hw-desc">WiFi 6E tri-banda. Cobertura hasta 350m². 8 puertos LAN 2.5G. Gestión cloud incluida.</div>
+          <div class="hw-footer">
+            <div>
+              <div class="hw-price">289€</div>
+              <div class="hw-stock">En stock</div>
+            </div>
+            <button class="btn btn-sm btn-outline" onclick="addToCart('hw','GigaRouter AX6000','289','','unidad')">+ Añadir</button>
+          </div>
+        </div>
+      </div>
+      <div class="hw-card">
+        <div class="hw-img"><span class="hw-img-label">Switch</span><img src="imagen 2.jpg" alt="Switch de red gestionable"></div>
+        <div class="hw-info">
+          <div class="hw-name">GigaSwitch Pro 24P</div>
+          <div class="hw-desc">24 puertos 2.5G gestionables con PoE++. Sin licencia anual. Gestión cloud incluida.</div>
+          <div class="hw-footer">
+            <div>
+              <div class="hw-price">449€</div>
+              <div class="hw-stock">En stock</div>
+            </div>
+            <button class="btn btn-sm btn-outline" onclick="addToCart('hw','GigaSwitch Pro 24P','449','','unidad')">+ Añadir</button>
+          </div>
+        </div>
+      </div>
+      <div class="hw-card">
+        <div class="hw-img"><span class="hw-img-label">Bundle</span><img src="imagen 3.jpg" alt="Pack de hardware mesh"></div>
+        <div class="hw-info">
+          <div class="hw-name">Pack Mesh Total</div>
+          <div class="hw-desc">Sistema mesh tri-banda de 3 nodos. Cobertura sin zonas muertas. Configuración automática.</div>
+          <div class="hw-footer">
+            <div>
+              <div class="hw-price">599€</div>
+              <div class="hw-stock">En stock</div>
+            </div>
+            <button class="btn btn-sm btn-primary" onclick="addToCart('hw','Pack Mesh Total','599','','unidad')">+ Añadir</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo"><div class="footer-logo-dot"></div>Gigabit</div>
+    <div class="footer-links"><a href="#">Privacidad</a><a href="#">Términos</a></div>
+    <div class="footer-copy">© 2026 Gigabit Technologies S.L.</div>
+  </footer>
+</div>
+
+<!--ABOUT-->
+<div class="page" id="page-about">
+  <div class="about-grid">
+    <div>
+      <div class="section-tag">Sobre Gigabit</div>
+      <h2 style="font-size:2rem;font-weight:700;letter-spacing:-.03em;margin-bottom:16px;line-height:1.15">Construyendo la<br>internet del mañana</h2>
+      <p style="color:var(--text-light);font-size:.92rem;line-height:1.75;margin-bottom:14px">Fundada en 2018 en Madrid por tres ingenieros convencidos de que el acceso a internet rápido no debía ser un lujo. Hoy somos más de 300 personas con presencia en 18 ciudades.</p>
+      <p style="color:var(--text-light);font-size:.92rem;line-height:1.75;margin-bottom:28px">Construimos y operamos nuestra propia red de fibra oscura. Sin mayoristas. Control total de calidad de principio a fin.</p>
+      <button class="btn btn-primary" onclick="showPage('store')">Ver nuestros planes →</button>
+      <div class="about-stats">
+        <div class="ast"><strong>300+</strong><span>Empleados</span></div>
+        <div class="ast"><strong>18</strong><span>Ciudades</span></div>
+        <div class="ast"><strong>50K+</strong><span>Clientes</span></div>
+      </div>
+    </div>
+    <div class="about-visual">
+      <div style="text-align:center;position:relative;z-index:1">
+        <div class="about-big">6</div>
+        <div style="font-size:.85rem;font-weight:600;color:var(--primary);text-transform:uppercase;letter-spacing:.1em;margin-top:6px">años de trayectoria</div>
+      </div>
+    </div>
+  </div>
+
+  <section class="section" style="padding-top:0">
+    <div class="section-tag">Historia</div>
+    <div class="timeline">
+      <div class="tl-item"><span class="tl-year">2018</span><div class="tl-ev">Fundación</div><div class="tl-d">Tres ingenieros y una visión: internet rápido para todos.</div></div>
+      <div class="tl-item"><span class="tl-year">2020</span><div class="tl-ev">Red propia</div><div class="tl-d">500 km de fibra oscura en Madrid y Barcelona.</div></div>
+      <div class="tl-item"><span class="tl-year">2022</span><div class="tl-ev">Expansión nacional</div><div class="tl-d">12 ciudades y 20.000 clientes activos.</div></div>
+      <div class="tl-item"><span class="tl-year">2025</span><div class="tl-ev">10 Gbps</div><div class="tl-d">Primeros en España en ofrecer 10 Gbps simétrico.</div></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo"><div class="footer-logo-dot"></div>Gigabit</div>
+    <div class="footer-links"><a href="#">Privacidad</a><a href="#">Términos</a></div>
+    <div class="footer-copy">© 2026 Gigabit Technologies S.L.</div>
+  </footer>
+</div>
+
+<!-- SUPPORT -->
+<div class="page" id="page-support">
+  <div class="support-hero">
+    <div class="section-tag">Centro de soporte</div>
+    <h1 style="font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;margin-bottom:10px;letter-spacing:-.02em">¿En qué podemos ayudarte?</h1>
+    <p style="color:var(--text-light);font-size:.95rem">Soporte técnico especializado 24/7 por teléfono, chat y email.</p>
+    <div class="search-bar">
+      <input type="text" placeholder="Busca una guía, artículo o solución…" id="searchInput" onkeydown="if(event.key==='Enter')doSearch()">
+      <button onclick="doSearch()">Buscar</button>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-tag">Categorías</div>
+      <h2>Áreas de soporte</h2>
+    </div>
+    <div class="sup-grid">
+      <div class="sup-card" onclick="showToast('Abriendo: Conectividad…','')">
+        <div class="sup-icon si-blue"></div>
+        <h3>Conectividad</h3>
+        <p>Velocidad, cortes, diagnóstico de red y optimización de señal.</p>
+        <div class="sup-arr">Ver artículos →</div>
+      </div>
+      <div class="sup-card" onclick="showToast('Abriendo: Equipamiento…','')">
+        <div class="sup-icon si-purple"></div>
+        <h3>Equipamiento</h3>
+        <p>Configuración de router, firmware y resolución de hardware.</p>
+        <div class="sup-arr">Ver artículos →</div>
+      </div>
+      <div class="sup-card" onclick="showToast('Abriendo: Facturación…','')">
+        <div class="sup-icon si-green"></div>
+        <h3>Facturación</h3>
+        <p>Facturas, métodos de pago y gestión de contratos.</p>
+        <div class="sup-arr">Ver artículos →</div>
+      </div>
+      <div class="sup-card" onclick="showToast('Abriendo: Seguridad…','')">
+        <div class="sup-icon si-blue"></div>
+        <h3>Seguridad</h3>
+        <p>Firewall, contraseñas WiFi y protección de red.</p>
+        <div class="sup-arr">Ver artículos →</div>
+      </div>
+      <div class="sup-card" onclick="showToast('Abriendo: Mi cuenta…','')">
+        <div class="sup-icon si-purple"></div>
+        <h3>Mi cuenta</h3>
+        <p>Área de cliente, datos personales y notificaciones.</p>
+        <div class="sup-arr">Ver artículos →</div>
+      </div>
+      <div class="sup-card" onclick="showToast('Abriendo: Instalación…','')">
+        <div class="sup-icon si-green"></div>
+        <h3>Instalación</h3>
+        <p>Guías de configuración para tu conexión y dispositivos.</p>
+        <div class="sup-arr">Ver artículos →</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="section-header">
+      <div class="section-tag">FAQ</div>
+      <h2>Preguntas frecuentes</h2>
+    </div>
+    <div class="faq-wrap">
+      <div class="faq-item open">
+        <button class="faq-q" onclick="toggleFaq(this)">¿Cuánto tarda la instalación? <span class="faq-icon">+</span></button>
+        <div class="faq-a">En 48 horas laborables desde la contratación. Para edificios sin cobertura previa, hasta 10 días mientras desplegamos la infraestructura.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">¿Hay permanencia? <span class="faq-icon">+</span></button>
+        <div class="faq-a">No. Ninguna permanencia en planes residenciales. Cancela en cualquier momento sin coste. Los planes empresariales con SLA tienen contratos de 12 meses.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">¿Asistencia técnica a las 3am? <span class="faq-icon">+</span></button>
+        <div class="faq-a">Sí. El NOC está activo 24/7. Llámanos, escríbenos o usa el chat. Clientes Business tienen técnico dedicado con respuesta garantizada en 2 horas.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">¿La IP fija tiene coste extra? <span class="faq-icon">+</span></button>
+        <div class="faq-a">No. Está incluida en todos los planes sin coste adicional. Para empresas también ofrecemos bloques /29.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">¿Puedo portar mi número de teléfono? <span class="faq-icon">+</span></button>
+        <div class="faq-a">Sí, sin coste. El proceso tarda entre 3 y 5 días laborables. Tu servicio actual permanece activo durante la portabilidad.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="section-header">
+      <div class="section-tag">Contacto</div>
+      <h2>Abre un ticket</h2>
+    </div>
+    <div class="contact-grid">
+      <div>
+        <div class="form-group"><label class="form-label">Nombre</label><input class="form-input" type="text" placeholder="Tu nombre completo"></div>
+        <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" placeholder="tu@email.com"></div>
+        <div class="form-group">
+          <label class="form-label">Categoría</label>
+          <select class="form-input">
+            <option value="" disabled selected>Selecciona una categoría</option>
+            <option>Problema de conexión</option>
+            <option>Configuración de equipos</option>
+            <option>Facturación</option>
+            <option>Seguridad</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Descripción</label><textarea class="form-input" placeholder="Cuéntanos qué ocurre…"></textarea></div>
+        <button class="btn btn-primary btn-full" onclick="submitTicket()">Enviar ticket →</button>
+      </div>
+      <div class="contact-info">
+        <div class="ci-row"><div class="ci-ico si-blue"></div><div><span class="ci-l">Teléfono 24/7</span><div class="ci-v">900 100 200</div></div></div>
+        <div class="ci-row"><div class="ci-ico si-purple"></div><div><span class="ci-l">Chat en vivo</span><div class="ci-v">Disponible ahora</div></div></div>
+        <div class="ci-row"><div class="ci-ico si-green"></div><div><span class="ci-l">Email</span><div class="ci-v">soporte@gigabit.es</div></div></div>
+        <div class="ci-row"><div class="ci-ico si-blue"></div><div><span class="ci-l">Oficina</span><div class="ci-v">C/ Gran Vía 42, Madrid</div></div></div>
+        <div class="status-ok">
+          <div class="status-dot"></div>
+          <div>
+            <span style="font-size:.82rem;color:#166534;font-weight:600;display:block">Todos los sistemas operativos</span>
+            <span style="font-size:.75rem;color:#4ade80">0 incidencias activas · Actualizado hace 2 min</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo"><div class="footer-logo-dot"></div>Gigabit</div>
+    <div class="footer-links"><a href="#">Privacidad</a><a href="#">Términos</a></div>
+    <div class="footer-copy">© 2026 Gigabit Technologies S.L.</div>
+  </footer>
+</div>
+
+<script>
+// ── CART STATE ──
+const cart = {};
+
+function addToCart(type, name, price, icon, unit) {
+  const key = name;
+  if (cart[key]) {
+    cart[key].qty++;
+  } else {
+    cart[key] = { name, price: parseFloat(price), icon, unit, qty: 1, type };
+  }
+  renderCart();
+  openCart();
+  showToast('Añadido: ' + name, icon);
+}
+
+function removeFromCart(key) {
+  delete cart[key];
+  renderCart();
+}
+
+function changeQty(key, delta) {
+  cart[key].qty += delta;
+  if (cart[key].qty <= 0) delete cart[key];
+  renderCart();
+}
+
+function renderCart() {
+  const keys = Object.keys(cart);
+  const itemsEl = document.getElementById('cartItems');
+  const emptyEl = document.getElementById('cartEmpty');
+  const countEl = document.getElementById('cartCount');
+  const headerCountEl = document.getElementById('cartHeaderCount');
+  const totalEl = document.getElementById('cartTotal');
+
+  const totalQty = keys.reduce((s, k) => s + cart[k].qty, 0);
+  const totalPrice = keys.reduce((s, k) => {
+    const item = cart[k];
+    return s + item.price * (item.type === 'plan' ? 1 : item.qty);
+  }, 0);
+
+  countEl.textContent = totalQty;
+  countEl.classList.toggle('show', totalQty > 0);
+  headerCountEl.textContent = totalQty > 0 ? '(' + totalQty + ' artículo' + (totalQty !== 1 ? 's' : '') + ')' : '';
+
+  // Clear existing items (except empty state)
+  Array.from(itemsEl.children).forEach(c => { if (c !== emptyEl) c.remove(); });
+
+  if (keys.length === 0) {
+    emptyEl.style.display = 'block';
+    totalEl.textContent = '0,00€';
+    return;
+  }
+  emptyEl.style.display = 'none';
+
+  keys.forEach(key => {
+    const item = cart[key];
+    const lineTotal = (item.price * (item.type === 'plan' ? 1 : item.qty)).toFixed(2).replace('.', ',');
+    const el = document.createElement('div');
+    el.className = 'cart-item';
+    el.innerHTML = `
+      <div class="ci-icon">${item.icon}</div>
+      <div class="ci-info">
+        <div class="ci-name">${item.name}</div>
+        <div class="ci-sub">${item.type === 'plan' ? 'Plan mensual' : 'Hardware'} · ${item.price.toFixed(2).replace('.', ',')}€/${item.unit}</div>
+      </div>
+      <div class="ci-right">
+        <div class="ci-price">${lineTotal}€</div>
+        ${item.type === 'hw' ? `<div class="ci-qty"><button class="qty-btn" onclick="changeQty('${key}',-1)">−</button><span class="qty-val">${item.qty}</span><button class="qty-btn" onclick="changeQty('${key}',1)">+</button></div>` : '<div style="font-size:.72rem;color:var(--text-light)">Plan mensual</div>'}
+        <button class="ci-del" onclick="removeFromCart('${key}')" title="Eliminar">X</button>
+      </div>`;
+    itemsEl.appendChild(el);
+  });
+
+  totalEl.textContent = totalPrice.toFixed(2).replace('.', ',') + '€';
+}
+
+// ── CART PANEL ──
+function openCart() {
+  document.getElementById('cartOverlay').classList.add('open');
+  document.getElementById('cartPanel').classList.add('open');
+}
+
+function closeCart() {
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.getElementById('cartPanel').classList.remove('open');
+}
+
+function checkout() {
+  const keys = Object.keys(cart);
+  if (keys.length === 0) { showToast('El carrito está vacío', ''); return; }
+  Object.keys(cart).forEach(k => delete cart[k]);
+  renderCart();
+  closeCart();
+  showToast('¡Pedido realizado con éxito! Te contactaremos pronto.', '');
+}
+
+// ── TOAST ──
+let toastTimer;
+function showToast(msg, icon = '') {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.querySelector('.toast-icon').textContent = icon;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── NAV ──
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  const navEl = document.getElementById('nav-' + id);
+  if (navEl) navEl.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── FAQ ──
+function toggleFaq(btn) {
+  const item = btn.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// ── SEARCH ──
+function doSearch() {
+  const q = document.getElementById('searchInput').value.trim();
+  if (!q) return;
+  showToast('Buscando: "' + q + '"…', '');
+}
+
+// ── TICKET ──
+function submitTicket() {
+  showToast('Ticket enviado. Te responderemos en menos de 2h.', '');
+}
+
+renderCart();
+</script>
+</body>
+</html>
