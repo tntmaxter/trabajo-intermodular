@@ -47,10 +47,3 @@ Estética moderna con componentes reutilizables
 Adaptación a dispositivos móviles
 
 
-## Estructura general
-
-Página principal con presentación del servicio
-Sección de planes de internet
-Tienda de hardware
-Panel de carrito lateral interactivo
-Página de soporte y contacto
